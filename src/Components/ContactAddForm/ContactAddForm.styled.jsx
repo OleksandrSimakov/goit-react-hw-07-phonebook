@@ -4,7 +4,7 @@ const ContactAddFormEl = styled.form`
   display: flex;
   flex-direction: column;
   border: 2px solid black;
-  width: 400px;
+  width: 450px;
   padding: 20px;
   margin-bottom: 20px;
 `

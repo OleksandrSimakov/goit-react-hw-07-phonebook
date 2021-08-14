@@ -1,11 +1,14 @@
 // import { useState } from 'react'
 import ContactAddForm from './ContactAddForm/ContactAddForm'
-import ContactListItem from './ContactListItem/ContactListItem'
+// import ContactListItem from './ContactListItem/ContactListItem'
 import ContactList from './ContactList/ContactList'
 import Filter from './Filter/Filter'
-import { deleteContact } from '../redux/contacts/contactsSlice'
-
-import { useSelector, useDispatch } from 'react-redux'
+// import { deleteContact } from '../redux/contacts/contactsSlice'
+// import { contactsSelector } from '../redux/contacts/contactsSlice'
+// import { useSelector, useDispatch } from 'react-redux'
+import { useGetContactsQuery } from '../redux/contacts/apiService'
+import { Spinner } from './Spinner/Spinner'
+import { Toaster } from 'react-hot-toast'
 
 export default function App() {
   // const [contacts, setContacts] = useState([
@@ -15,9 +18,12 @@ export default function App() {
   //   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   // ])
 
-  const contacts = useSelector((state) => state.contacts.items)
-  const filter = useSelector((state) => state.contacts.filter)
-  const dispatch = useDispatch()
+  const { data, isFetching } = useGetContactsQuery()
+  // console.log(data)
+
+  // const contactsApi = useSelector(contactsSelector)
+  // const filter = useSelector((state) => state.contactsApi.filter)
+  // const dispatch = useDispatch()
 
   // const [filter, setFilter] = useState('')
 
@@ -38,13 +44,13 @@ export default function App() {
   //   setFilter(filterInput)
   // }
 
-  function getFilteredNames() {
-    const normilizedFilterState = filter.toLowerCase()
+  // function getFilteredNames() {
+  //   const normilizedFilterState = filter.toLowerCase()
 
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(normilizedFilterState),
-    )
-  }
+  //   return contactsApi.filter((contact) =>
+  //     contact.name.toLowerCase().includes(normilizedFilterState),
+  //   )
+  // }
 
   // const deleteContact = (contactId) => {
   //   setContacts((prevState) =>
@@ -63,16 +69,21 @@ export default function App() {
       {/* <Filter filter={filter} handleFilterChange={handleFilterChange}></Filter> */}
       <Filter />
 
-      <ContactList>
-        {getFilteredNames().map(({ id, name, number }) => (
+      {isFetching && <Spinner />}
+
+      {data && (
+        <ContactList contacts={data}>
+          {/* {getFilteredNames().map(({ id, name, number }) => (
           <ContactListItem
             key={id}
             name={name}
             number={number}
             onDelBtnClick={() => dispatch(deleteContact(id))}
           />
-        ))}
-      </ContactList>
+        ))} */}
+        </ContactList>
+      )}
+      <Toaster />
     </>
   )
 }

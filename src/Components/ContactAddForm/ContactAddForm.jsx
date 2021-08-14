@@ -1,12 +1,11 @@
 // import { useState } from 'react'
 import ContactAddFormEl from './ContactAddForm.styled'
 // import PropTypes from 'prop-types'
-import { useSelector, useDispatch } from 'react-redux'
-import {
-  addContact,
-  contactsSelector,
-} from '../../redux/contacts/contactsSlice'
-import { v4 as uuidv4 } from 'uuid'
+// import { useSelector } from 'react-redux'
+import { useGetContactsQuery } from '../../redux/contacts/apiService'
+// import { v4 as uuidv4 } from 'uuid'
+import { useAddContactMutation } from '../../redux/contacts/apiService'
+import { toast } from 'react-hot-toast'
 
 const styles = {
   input: {
@@ -28,29 +27,43 @@ const styles = {
 }
 
 export default function ContactAddForm() {
+  const [addContact, { isLoading }] = useAddContactMutation()
+  const { data } = useGetContactsQuery()
+  // console.log(data)
+
   // const [name, setName] = useState('')
   // const [number, setNumber] = useState('')
 
-  const dispatch = useDispatch()
-  const contacts = useSelector(contactsSelector)
+  // const dispatch = useDispatch()
+  // const contacts = useSelector(contactsSelector)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const contactsHaveDuplicate = contacts.find(
-      (contact) => contact.name === e.target.elements.name.value,
+    const contactsHaveDuplicate = data.find(
+      (data) => data.name === e.target.elements.name.value,
     )
-    contactsHaveDuplicate
-      ? alert(`${e.target.elements.name.value} is already in contacts`)
-      : // onSubmit(name, number)
-        // setName('')
-        // setNumber('')
-        dispatch(
-          addContact({
-            id: uuidv4(),
-            name: e.target.elements.name.value,
-            number: e.target.elements.number.value,
-          }),
-        )
+
+    if (contactsHaveDuplicate) {
+      alert(`${e.target.elements.name.value} is already in contacts`)
+      toast.error('Contact not added')
+    } else {
+      addContact({
+        name: e.target.elements.name.value,
+        number: e.target.elements.number.value,
+      })
+      toast.success('Contact added')
+    }
+
+    // onSubmit(name, number)
+    // setName('')
+    // setNumber('')
+    // dispatch(
+    //   addContact({
+    //     id: uuidv4(),
+    // name: e.target.elements.name.value,
+    // number: e.target.elements.number.value,
+    //   }),
+    // )
     e.target.reset()
   }
 
@@ -95,7 +108,7 @@ export default function ContactAddForm() {
             // onChange={handleChange}
           ></input>
         </label>
-        <button type="submit" style={styles.button}>
+        <button type="submit" style={styles.button} disabled={isLoading}>
           Add Contact
         </button>
       </ContactAddFormEl>

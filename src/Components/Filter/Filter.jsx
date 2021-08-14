@@ -1,8 +1,9 @@
 import FilterEl from './Filter.styled'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
-import { useDispatch } from 'react-redux'
-import { filterContact } from '../../redux/contacts/contactsSlice'
+// import { useDispatch } from 'react-redux'
+// import { filterContact } from '../../redux/contacts/contactsSlice'
+// import { useGetFilteredContactsQuery } from '../../redux/contacts/apiService'
 
 const styles = {
   input: {
@@ -11,13 +12,14 @@ const styles = {
   },
 }
 
-function Filter() {
-  const dispatch = useDispatch()
+function Filter({ handleFilterChange }) {
+  // const [getFilteredContacts] = useGetFilteredContactsQuery()
+  // const dispatch = useDispatch()
 
-  const handleFilterChange = ({ target }) => {
-    const filterInput = target.value
-    dispatch(filterContact(filterInput))
-  }
+  // const handleFilterChange = ({ target }) => {
+  //   const filterInput = target.value
+  //   dispatch(filterContact(filterInput))
+  // }
 
   return (
     <FilterEl>
@@ -28,21 +30,21 @@ function Filter() {
           type="text"
           name="filter"
           // value={filter}
-          onChange={handleFilterChange}
+          // onChange={() => getFilteredContacts()}
         ></input>
       </label>
     </FilterEl>
   )
 }
 
-Filter.propTypes = {
-  filter: PropTypes.string,
-  handleFilterChange: PropTypes.func,
-}
+// Filter.propTypes = {
+//   filter: PropTypes.string,
+//   handleFilterChange: PropTypes.func,
+// }
 
-Filter.defaultProps = {
-  filter: null,
-  handleFilterChange: null,
-}
+// Filter.defaultProps = {
+//   filter: null,
+//   handleFilterChange: null,
+// }
 
 export default Filter

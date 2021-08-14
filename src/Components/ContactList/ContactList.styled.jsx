@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 const ContactListEl = styled.ul`
   padding: 0;
   list-style: none;
-  width: 400px;
+  width: 450px;
   margin: 0px;
 `
 
