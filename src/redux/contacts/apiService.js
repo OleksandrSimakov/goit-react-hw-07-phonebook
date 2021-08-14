@@ -1,7 +1,5 @@
-// Need to use the React-specific entry point to allow generating React hooks
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-// Define a service using a base URL and expected endpoints
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
   baseQuery: fetchBaseQuery({
@@ -14,14 +12,6 @@ export const contactsApi = createApi({
       query: () => '/contacts',
       providesTags: ['Contact'],
     }),
-
-    // getFilteredContacts: builder.query({
-    //   query: (name) => ({
-    //     url: `/contacts/${name}`,
-    //     method: 'GET',
-    //   }),
-    //   providesTags: ['Contact'],
-    // }),
 
     deleteContact: builder.mutation({
       query: (id) => ({
@@ -42,12 +32,8 @@ export const contactsApi = createApi({
   }),
 })
 
-// Export hooks for usage in function components, which are
-// auto-generated based on the defined endpoints
 export const {
   useGetContactsQuery,
   useDeleteContactMutation,
   useAddContactMutation,
-  // useGetFilteredContactsQuery,
 } = contactsApi
-// export const contactsSelector = (state) => state.contactsApi
