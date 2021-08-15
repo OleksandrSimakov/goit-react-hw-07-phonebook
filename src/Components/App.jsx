@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux'
 import { useGetContactsQuery } from '../redux/contacts/apiService'
 import { Spinner } from './Spinner/Spinner'
 import { Toaster } from 'react-hot-toast'
+import { filterSelector } from '../redux/contacts/contacts-selectors'
 
 export default function App() {
   const { data, isFetching } = useGetContactsQuery()
 
-  const filter = useSelector((state) => state.filter.filter)
+  const filter = useSelector(filterSelector)
 
   return (
     <>
